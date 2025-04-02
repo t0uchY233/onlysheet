@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlySheet - Защищенное редактирование таблиц</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- Предотвращение копирования контента через CSS -->
+    <style>
+        .prevent-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="logo">
+                <h1>OnlySheet</h1>
+            </div>
+            <div class="user-info" id="userInfo">
+                <!-- Информация о пользователе будет добавлена через JavaScript -->
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Контейнер для авторизации -->
+            <div class="auth-container" id="authContainer">
+                <h2>Авторизация</h2>
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="username">Имя пользователя</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Войти</button>
+                    </div>
+                    <div class="error-message" id="loginError"></div>
+                </form>
+            </div>
+
+            <!-- Контейнер для списка документов (скрыт до авторизации) -->
+            <div class="documents-container" id="documentsContainer" style="display: none;">
+                <div class="documents-header">
+                    <h2>Доступные таблицы</h2>
+                    <div class="admin-controls" id="adminControls" style="display: none;">
+                        <button id="uploadBtn" class="btn btn-primary">Загрузить файл</button>
+                        <button id="createUserBtn" class="btn btn-secondary">Создать пользователя</button>
+                    </div>
+                </div>
+                
+                <div class="documents-list" id="documentsList">
+                    <!-- Список документов будет добавлен через JavaScript -->
+                    <div class="loading">Загрузка списка документов...</div>
+                </div>
+            </div>
+
+            <!-- Контейнер для редактора ONLYOFFICE (скрыт до выбора документа) -->
+            <div class="editor-container" id="editorContainer" style="display: none;">
+                <div class="editor-header">
+                    <button id="backToListBtn" class="btn btn-secondary">Назад к списку</button>
+                    <h3 id="currentDocumentTitle">Документ</h3>
+                </div>
+                <div id="documentEditor" class="document-editor"></div>
+            </div>
+
+            <!-- Модальное окно для создания пользователя (только для админа) -->
+            <div class="modal" id="createUserModal">
+                <div class="modal-content">
+                    <span class="close-btn" id="closeUserModal">&times;</span>
+                    <h3>Создание нового пользователя</h3>
+                    <form id="createUserForm">
+                        <div class="form-group">
+                            <label for="newUsername">Имя пользователя</label>
+                            <input type="text" id="newUsername" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">Пароль</label>
+                            <input type="password" id="newPassword" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userRole">Роль</label>
+                            <select id="userRole" name="role" required>
+                                <option value="admin">Администратор</option>
+                                <option value="editor">Редактор</option>
+                                <option value="viewer">Читатель</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Создать</button>
+                        </div>
+                        <div class="error-message" id="createUserError"></div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Модальное окно для загрузки документа (только для админа) -->
+            <div class="modal" id="uploadModal">
+                <div class="modal-content">
+                    <span class="close-btn" id="closeUploadModal">&times;</span>
+                    <h3>Загрузка нового документа</h3>
+                    <form id="uploadForm">
+                        <div class="form-group">
+                            <label for="documentFile">Выберите файл (.xlsx, .xls)</label>
+                            <input type="file" id="documentFile" name="file" accept=".xlsx,.xls" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Загрузить</button>
+                        </div>
+                        <div class="error-message" id="uploadError"></div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 OnlySheet - Система безопасной работы с таблицами</p>
+        </footer>
+    </div>
+
+    <!-- Подключение JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="scripts/main.js"></script>
+    
+    <!-- Подключение API ONLYOFFICE Document Server -->
+    <script type="text/javascript" src="http://localhost:8080/web-apps/apps/api/documents/api.js"></script>
+</body>
+</html>
