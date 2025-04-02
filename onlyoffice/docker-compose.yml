@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  document-server:
+    container_name: onlyoffice-document-server
+    image: onlyoffice/documentserver:latest
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - document-server-data:/var/www/onlyoffice/Data
+    restart: always
+    environment:
+      - JWT_ENABLED=true
+      # JWT_SECRET генерируется автоматически при первом запуске
+  
+  app:
+    container_name: onlysheet-app
+    build: ..
+    ports:
+      - "3000:3000"
+    depends_on:
+      - document-server
+    volumes:
+      - ../documents:/app/documents
+    restart: always
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+
+volumes:
+  document-server-data:
