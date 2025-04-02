@@ -1,0 +1,19 @@
+{
+  "server": {
+    "port": 3000,
+    "host": "localhost"
+  },
+  "jwt": {
+    "secret": "your-secret-key-replace-in-production",
+    "expiresIn": "24h"
+  },
+  "documentServer": {
+    "url": "http://localhost:8080",
+    "apiPath": "/web-apps/apps/api/documents/api.js",
+    "fileTypesSupported": ["xlsx", "xls"]
+  },
+  "storage": {
+    "documentsPath": "./documents",
+    "tempPath": "./temp"
+  }
+}
